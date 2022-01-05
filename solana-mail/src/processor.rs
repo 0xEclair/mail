@@ -54,3 +54,26 @@ impl Processor {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod test{
+    use super::*;
+    use solana_program::clock::Epoch;
+
+    #[test]
+    fn test_init_account() {
+        let program_id = Pubkey::default();
+        let key = Pubkey::default();
+        let mut lamports = 0;
+        let mut data = [0; 1000];
+        let account = AccountInfo::new(
+            &key,true,true,
+            &mut lamports,
+            &mut data,
+            &program_id, false,
+            Epoch::default()
+        );
+
+        Processor::process_init_account(&account, &program_id).unwrap();
+    }
+}
