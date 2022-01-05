@@ -1,11 +1,15 @@
 use solana_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
+    program_error::ProgramError,
     msg,
     pubkey::Pubkey
 };
+use borsh::BorshSerialize;
 
+use crate::state::{Mail, MailAccount};
 use crate::instruction::MailInstruction;
+use crate::error::MailError;
 
 pub struct Processor;
 
@@ -25,10 +29,28 @@ impl Processor {
         }
     }
 
-    fn process_init_account(
-        account: &AccountInfo,
-        program_id: &Pubkey
-    ) -> ProgramResult {
+    fn process_init_account(account: &AccountInfo, program_id: &Pubkey) -> ProgramResult {
+        if !account.is_writable {
+            return Err(MailError::NotWritable.into());
+        }
+
+        if account.owner != program_id {
+            return Err(ProgramError::IncorrectProgramId);
+        }
+
+        let welcome = Mail {
+            id: String::from("00000000-0000-0000-0000-000000000000"),
+            from_address: program_id.to_string(),
+            to_address: account.key.to_string(),
+            subject: String::from("Welcome to SolanaMail"),
+            body: String::from("This is the start of your private messages on SolanaMail."),
+            sent_date: String::from("9/29/2021, 3:58:02 PM"),
+        };
+        let mail_account = MailAccount {
+            inbox: vec![welcome],
+            sent: Vec::new()
+        };
+        mail_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
         Ok(())
     }
 }

@@ -4,7 +4,10 @@ use thiserror::Error;
 #[derive(Error, Debug, Copy, Clone)]
 pub enum MailError {
     #[error("Invalid Instruction")]
-    InvalidInstruction
+    InvalidInstruction,
+
+    #[error("Not Writable")]
+    NotWritable
 }
 
 impl From<MailError> for ProgramError {
