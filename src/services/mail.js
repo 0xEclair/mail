@@ -1,15 +1,17 @@
 import { Connection, PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
 import { MailAccount } from "../models";
+import { wallet } from "./account";
 
 const cluster = "https://api.devnet.solana.com";
 const connection = new Connection(cluster, "confirmed");
+const programId = new PublicKey("4HSimHydcZMv3q9kdWgbursuBYjetks1gp3txctUJnuM");
 
 export const fetchData = async (accountId) => {
   const accountInfo = await connection.getAccountInfo(accountId);
   return MailAccount.decode(accountInfo.data);
 }
 
-export const send = async (mail, programId, wallet) => {
+export const send = async (mail) => {
   const encodedMail = mail.encode();
   const instruction = new TransactionInstruction({
     keys:[

@@ -12,6 +12,7 @@ html, body {
   text-align: center;
   display: flex;
   justify-content: flex-end;
+  background-color: antiquewhite;
 
   overflow: hidden;
 }

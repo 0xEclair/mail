@@ -3,7 +3,7 @@ import Wallet from "@project-serum/sol-wallet-adapter";
 
 const cluster = "https://api.devnet.solana.com";
 const connection = new Connection(cluster, "confirmed");
-const wallet = new Wallet("https://www.sollet.io", cluster);
+export const wallet = new Wallet("https://www.sollet.io", cluster);
 
 const checkWallet = async () => {
   if(!wallet.connected) {
