@@ -21,7 +21,7 @@ export const creteOrGetAccount = async (seed, programId) => {
   );
   const mailAccount = await connection.getAccountInfo(derivedAddress);
   if(mailAccount === null) {
-    const lamports = await connection.getMinimumBalanceForRentExemption(1000000);
+    const lamports = await connection.getMinimumBalanceForRentExemption(100000);
 
     const createAccountInstruction = SystemProgram.createAccountWithSeed({
       fromPubkey: wallet.publicKey,
@@ -29,7 +29,7 @@ export const creteOrGetAccount = async (seed, programId) => {
       seed,
       newAccountPubkey: derivedAddress,
       lamports,
-      space: 1000000,
+      space: 100000,
       programId: programId
     });
 
@@ -51,7 +51,7 @@ export const creteOrGetAccount = async (seed, programId) => {
     const signed = await wallet.signTransaction(transaction);
     const txid = await connection.sendRawTransaction(signed.serialize());
 
-    await connection.confirmTransitionTo(txid);
+    await connection.confirmTransaction(txid);
   }
   return {
     derivedAddress,

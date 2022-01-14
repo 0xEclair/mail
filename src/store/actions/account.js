@@ -30,9 +30,11 @@ export const connectWallet = (seed) => {
       const {derivedAddress, wallet} = await creteOrGetAccount(seed, programId);
 
       dispatch(success({derivedAddress, wallet}));
+      return true;
     }
     catch (e) {
       dispatch(failed({e}));
+      return false;
     }
   };
 }

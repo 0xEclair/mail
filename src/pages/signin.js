@@ -4,11 +4,12 @@ import { connectWallet } from "../store/actions";
 import { useState } from "react";
 
 export const Signin = (props) => {
-  const [seed, setSeed] = useState("solana-mail");
+  const [seed, setSeed] = useState("");
   const dispatch = useDispatch();
   const signin = async () => {
-    await dispatch(connectWallet(seed));
-    //props.history.push("/mail");
+    if(await dispatch(connectWallet(seed)) === true) {
+      props.history.push("/mail");
+    }
   };
 
   return (
@@ -22,7 +23,13 @@ export const Signin = (props) => {
       <h1>
         Solana Mail
       </h1>
-      <Input placeholder="input your seed" />
+      <Input
+        placeholder="input your seed"
+        value={seed}
+        onChange={(e) => {
+          setSeed(e.target.value);
+        }}
+      />
       <Spacer />
       <Button auto type="secondary" scale={1/3} onClick={signin}>
         log in

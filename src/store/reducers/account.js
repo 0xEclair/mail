@@ -1,9 +1,5 @@
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { AccountTypes } from "../action_types/account";
-
-const programSecretKeyString = "[213,29,154,94,248,28,95,131,81,29,3,169,123,8,199,103,31,124,11,101,251,138,60,75,247,223,104,62,212,23,243,207,48,246,212,27,50,115,18,18,96,133,39,232,39,222,99,182,197,125,22,103,234,225,86,171,88,187,181,126,30,196,45,190]";
-const programSecretKey = Uint8Array.from(JSON.parse(programSecretKeyString));
-const programKeypair = Keypair.fromSecretKey(programSecretKey);
 
 const initialState = {
   loading: false,
@@ -11,7 +7,7 @@ const initialState = {
   errMsg: null,
   wallet: null,
   accountId: "",
-  programId: programKeypair.publicKey
+  programId: new PublicKey("4HSimHydcZMv3q9kdWgbursuBYjetks1gp3txctUJnuM")
 };
 
 export const account = (state = initialState, action) => {
@@ -37,7 +33,7 @@ export const account = (state = initialState, action) => {
         ...state,
         loading: false,
         isError: true,
-        errMsg: action.payload.error
+        errMsg: action.payload
       }
     }
     default: {

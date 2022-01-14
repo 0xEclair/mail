@@ -27,7 +27,7 @@ export class MailAccount extends Assignable {
 
     const accountDataBuffer = Buffer.alloc(dataLength.length);
     bytes.copy(accountDataBuffer, 0, 4, dataLength.length);
-    return serialize(SCHEMA, MailAccount, accountDataBuffer);
+    return deserialize(SCHEMA, MailAccount, accountDataBuffer);
   }
 }
 
@@ -36,7 +36,6 @@ export class DataLength extends Assignable {
     return deserialize(SCHEMA, DataLength, bytes);
   }
 }
-
 
 const SCHEMA = new Map([
   [
